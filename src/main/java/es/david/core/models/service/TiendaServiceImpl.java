@@ -45,4 +45,24 @@ public class TiendaServiceImpl implements ITiendaService {
 		tiendaRepository.deleteAll();
 	}
 
+	@Override
+	public List<Tienda> getTiendasByNombreTienda(String nombreTienda) {
+		
+		List<Tienda> tiendasByName = tiendaRepository.findByNombreTiendaContainingIgnoreCase(nombreTienda);
+		
+		if(tiendasByName.isEmpty() || tiendasByName.size()==0) System.err.println("Tienda no encontrada");
+		
+		return tiendasByName;
+	}
+
+	@Override
+	public List<Tienda> getTiendasByCapacityGreaterThan(int maxCuadros) {
+		
+		List<Tienda> tiendasByCapacity = tiendaRepository.findByMaxCuadrosGreaterThan(maxCuadros);
+		
+		if(tiendasByCapacity.isEmpty() || tiendasByCapacity.size()==0) System.err.println("Tienda no encontrada");
+		
+		return tiendasByCapacity;
+	}
+
 }

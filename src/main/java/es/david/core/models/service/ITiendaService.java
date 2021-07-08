@@ -18,5 +18,9 @@ public interface ITiendaService {
 	public void deleteById(Long id);
 	
 	public void deleteAll();
+	
+	public List<Tienda> getTiendasByNombreTienda(String nombreTienda);
+	
+	public List<Tienda> getTiendasByCapacityGreaterThan(int maxCuadros);
 
 }

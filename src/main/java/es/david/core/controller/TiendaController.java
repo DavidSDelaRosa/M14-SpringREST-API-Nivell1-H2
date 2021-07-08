@@ -26,7 +26,7 @@ public class TiendaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(tiendaService.save(tienda));
 	}
 	
-	@PostMapping("/insert")
+	@PostMapping("/data")
 	public ResponseEntity<?> createAll(@RequestBody List<Tienda> tiendas){
 		
 		System.out.println("Creando varias...");
@@ -59,7 +59,7 @@ public class TiendaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(tiendaService.save(oTienda.get()));
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/fire/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		if(!tiendaService.findById(id).isPresent())
 			return ResponseEntity.notFound().build();
@@ -69,7 +69,7 @@ public class TiendaController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/fire")
 	public ResponseEntity<?> deleteAll(){
 		System.out.println("Borrando varias...");
 		tiendaService.deleteAll();
@@ -84,4 +84,25 @@ public class TiendaController {
 				.collect(Collectors.toList());
 		return tiendas;
 	}
+	
+	@GetMapping("/search/{nombre}")
+	public ResponseEntity<?> readByNombreTienda(@PathVariable(value="nombre")String nombreTienda){
+		
+		System.out.println("Filtrando por nombre...");
+		
+		List<Tienda> tiendas = tiendaService.getTiendasByNombreTienda(nombreTienda);
+
+		return ResponseEntity.ok(tiendas);
+	}
+	
+	@GetMapping("/search/capacity/{max_cuadros}")
+	public ResponseEntity<?> readByMaxCuadros(@PathVariable(value="max_cuadros")int maxCuadros){
+		System.out.println("Filtrando por capacidad...");
+	
+		List<Tienda> tiendas = tiendaService.getTiendasByCapacityGreaterThan(maxCuadros);
+		
+		return ResponseEntity.ok(tiendas);
+	}
+	
+	
 }

@@ -13,10 +13,22 @@ public interface ICuadroService {
 	
 	public Cuadro save(Cuadro cuadro);
 	
+	public Cuadro saveOnTienda(Cuadro cuadro, Long idTienda);
+	
+	public List<Cuadro> findByTiendaId(Long idTienda);
+	
 	public void deleteById(Long id);
 	
 	public List<Cuadro> saveAll(List<Cuadro> cuadros);
 	
 	public void deleteAll();
+	
+	public List<Cuadro> getCuadrosByNombreCuadro(String nombreCuadro);
+
+	public List<Cuadro> getCuadrosByAutor(String autor);
+	
+	public List<Cuadro> getCuadrosByPrecioGreaterThan(double precio);
+
+	//public List<Cuadro> getCuadrosSortedByDate();
 
 }

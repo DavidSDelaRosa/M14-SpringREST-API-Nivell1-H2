@@ -14,19 +14,30 @@ import es.david.core.models.entities.Cuadro;
 import es.david.core.models.service.ICuadroService;
 
 @RestController
-@RequestMapping("/api/cuadros")
+@RequestMapping("/api/tiendas")
 public class CuadroController {
 	
 	@Autowired
 	private ICuadroService cuadroService;
 
-	@PostMapping
+	@PostMapping("/cuadros")
 	public ResponseEntity<?> create(@RequestBody Cuadro cuadro){
 		System.out.println(cuadro.toString());
 		return ResponseEntity.status(HttpStatus.CREATED).body(cuadroService.save(cuadro));
 	}
 	
-	@PostMapping("/insert")
+	@PostMapping("/{id}/cuadros")
+	public ResponseEntity<?> createOnShop(@RequestBody Cuadro cuadro, @PathVariable(value = "id") Long idTienda){
+		System.err.println("Añadiendo cuadros a la tienda con ID: " + idTienda);
+		
+		Cuadro cuadroPost = cuadroService.saveOnTienda(cuadro, idTienda);
+		
+		if(cuadroPost==null) return ResponseEntity.notFound().build();
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(cuadroPost);
+	}
+	
+	@PostMapping("/cuadros/data")
 	public ResponseEntity<?> createAll(@RequestBody List<Cuadro> cuadros){
 		
 		System.out.println("Creando varias...");
@@ -35,7 +46,7 @@ public class CuadroController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(cuadroService.saveAll(cuadros));
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/cuadros/{id}")
 	public ResponseEntity<?> read(@PathVariable Long id){
 		Optional<Cuadro> oCuadro = cuadroService.findById(id);
 		
@@ -45,7 +56,7 @@ public class CuadroController {
 		return ResponseEntity.ok(oCuadro);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/cuadros/{id}")
 	public ResponseEntity<?> update(@RequestBody Cuadro cuadro, @PathVariable Long id){
 		Optional<Cuadro> oCuadro = cuadroService.findById(id);
 		
@@ -61,7 +72,7 @@ public class CuadroController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(cuadroService.save(oCuadro.get()));
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/cuadros/fire/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		if(!cuadroService.findById(id).isPresent())
 			return ResponseEntity.notFound().build();
@@ -71,7 +82,7 @@ public class CuadroController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/cuadros/fire")
 	public ResponseEntity<?> deleteAll(){
 		System.out.println("Borrando varias...");
 		cuadroService.deleteAll();
@@ -79,7 +90,7 @@ public class CuadroController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping
+	@GetMapping("/cuadros")
 	public List<Cuadro> readAll(){
 		List<Cuadro> cuadros = StreamSupport
 				.stream(cuadroService.findAll().spliterator(), false)
@@ -87,4 +98,35 @@ public class CuadroController {
 		
 		return cuadros;
 	}
+	
+	@GetMapping("/cuadros/search/nombre/{nombre}")
+	public ResponseEntity<?> readByNombreCuadro(@PathVariable(value="nombre")String nombreCuadro){
+		
+		List<Cuadro> cuadrosNombre = cuadroService.getCuadrosByNombreCuadro(nombreCuadro);
+		
+		return ResponseEntity.ok(cuadrosNombre);
+	}
+	
+	@GetMapping("/cuadros/search/autor/{autor}")
+	public ResponseEntity<?> readByAutor(@PathVariable String autor){
+		List<Cuadro> cuadrosAutor = cuadroService.getCuadrosByAutor(autor);
+		
+		return ResponseEntity.ok(cuadrosAutor);
+	}
+
+	@GetMapping("/cuadros/search/precio/{precio}")
+	public ResponseEntity<?> readByPrecio(@PathVariable double precio){
+		List<Cuadro> cuadrosPrecio = cuadroService.getCuadrosByPrecioGreaterThan(precio);
+		
+		return ResponseEntity.ok(cuadrosPrecio);
+	}
+
+
+
+
+
+
+
+
+
 }
