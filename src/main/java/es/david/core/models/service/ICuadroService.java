@@ -29,6 +29,4 @@ public interface ICuadroService {
 	
 	public List<Cuadro> getCuadrosByPrecioGreaterThan(double precio);
 
-	//public List<Cuadro> getCuadrosSortedByDate();
-
 }

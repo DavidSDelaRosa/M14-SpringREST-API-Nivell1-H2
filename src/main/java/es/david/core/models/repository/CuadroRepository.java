@@ -14,6 +14,5 @@ public interface CuadroRepository extends JpaRepository<Cuadro, Long> {
 	
 	public List<Cuadro> findByPrecioGreaterThan(double precio);
 	
-	//public List<Cuadro> findAllOrderByFechaCreacionDesc();
 
 }

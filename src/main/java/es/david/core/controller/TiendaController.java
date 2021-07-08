@@ -22,15 +22,11 @@ public class TiendaController {
 	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody Tienda tienda) {
-		System.out.println(tienda.toString());
 		return ResponseEntity.status(HttpStatus.CREATED).body(tiendaService.save(tienda));
 	}
 	
 	@PostMapping("/data")
 	public ResponseEntity<?> createAll(@RequestBody List<Tienda> tiendas){
-		
-		System.out.println("Creando varias...");
-		for(Tienda t: tiendas) System.out.println(t.toString());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(tiendaService.saveAll(tiendas));
 	}
@@ -42,7 +38,6 @@ public class TiendaController {
 		if (!oTienda.isPresent())
 			return ResponseEntity.notFound().build();
 
-		System.out.println(oTienda.get().toString());
 		return ResponseEntity.ok(oTienda);
 	}
 	
@@ -55,7 +50,7 @@ public class TiendaController {
 		
 		oTienda.get().setNombreTienda(tienda.getNombreTienda());
 		oTienda.get().setMaxCuadros(tienda.getMaxCuadros());
-		System.out.println(oTienda.get().toString());
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(tiendaService.save(oTienda.get()));
 	}
 	
@@ -71,9 +66,8 @@ public class TiendaController {
 	
 	@DeleteMapping("/fire")
 	public ResponseEntity<?> deleteAll(){
-		System.out.println("Borrando varias...");
-		tiendaService.deleteAll();
 		
+		tiendaService.deleteAll();
 		return ResponseEntity.ok().build();
 	}
 	
@@ -88,8 +82,6 @@ public class TiendaController {
 	@GetMapping("/search/{nombre}")
 	public ResponseEntity<?> readByNombreTienda(@PathVariable(value="nombre")String nombreTienda){
 		
-		System.out.println("Filtrando por nombre...");
-		
 		List<Tienda> tiendas = tiendaService.getTiendasByNombreTienda(nombreTienda);
 
 		return ResponseEntity.ok(tiendas);
@@ -97,7 +89,6 @@ public class TiendaController {
 	
 	@GetMapping("/search/capacity/{max_cuadros}")
 	public ResponseEntity<?> readByMaxCuadros(@PathVariable(value="max_cuadros")int maxCuadros){
-		System.out.println("Filtrando por capacidad...");
 	
 		List<Tienda> tiendas = tiendaService.getTiendasByCapacityGreaterThan(maxCuadros);
 		

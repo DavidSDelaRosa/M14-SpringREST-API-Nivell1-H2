@@ -85,7 +85,6 @@ public class CuadroServiceImpl implements ICuadroService {
 	public Cuadro saveOnTienda(Cuadro cuadro, Long idTienda) {
 		
 		cuadro.setTienda(tiendaRepository.findById(idTienda).get());
-		System.err.println("Actualizada tienda sobre cuadro");
 		return cuadroRepository.save(cuadro);
 	}
 
@@ -102,11 +101,5 @@ public class CuadroServiceImpl implements ICuadroService {
 		
 		return cuadrosPorTienda;
 	}
-
-	/*@Override
-	public List<Cuadro> getCuadrosSortedByDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 }

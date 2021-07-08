@@ -26,11 +26,9 @@ public class Tienda {
 	
 	@Column(name="max_cuadros", nullable = false)
 	private Integer maxCuadros;
-	
-	//@OneToMany(mappedBy = "tienda", cascade = CascadeType.ALL, orphanRemoval = true)
-	
-	//private List<Cuadro> cuadros = new ArrayList<>();
-	@OneToMany(mappedBy = "tienda", orphanRemoval = true) private List<Cuadro> cuadros;
+
+	@OneToMany(mappedBy = "tienda", orphanRemoval = true)
+	private List<Cuadro> cuadros;
 
 	public Long getIdTienda() {
 		return idTienda;
@@ -56,7 +54,7 @@ public class Tienda {
 		this.maxCuadros = maxCuadros;
 	}
 
-	@JsonManagedReference
+	@JsonManagedReference //evita recursividad infinita en las llamadas a la api
 	public List<Cuadro> getCuadros() {
 		return cuadros;
 	}

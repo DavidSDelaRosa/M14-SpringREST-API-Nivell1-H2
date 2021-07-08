@@ -34,9 +34,7 @@ public class Cuadro {
 	
 	@Column(name="fecha_creacion", nullable= false)
 	private Date fechaCreacion;
-	
-	/*@ManyToOne(targetEntity = Tienda.class, fetch = FetchType.LAZY) //quitar targetEntity?
-	@JoinColumn(name="id_tienda")*/
+
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tienda")
 	private Tienda tienda;
@@ -81,7 +79,7 @@ public class Cuadro {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	@JsonBackReference
+	@JsonBackReference //evita recursividad infinita en las llamadas a la api
 	public Tienda getTienda() {
 		return tienda;
 	}

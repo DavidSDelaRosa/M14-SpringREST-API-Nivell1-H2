@@ -22,13 +22,11 @@ public class CuadroController {
 
 	@PostMapping("/cuadros")
 	public ResponseEntity<?> create(@RequestBody Cuadro cuadro){
-		System.out.println(cuadro.toString());
 		return ResponseEntity.status(HttpStatus.CREATED).body(cuadroService.save(cuadro));
 	}
 	
 	@PostMapping("/{id}/cuadros")
 	public ResponseEntity<?> createOnShop(@RequestBody Cuadro cuadro, @PathVariable(value = "id") Long idTienda){
-		System.err.println("Añadiendo cuadros a la tienda con ID: " + idTienda);
 		
 		Cuadro cuadroPost = cuadroService.saveOnTienda(cuadro, idTienda);
 		
@@ -39,9 +37,6 @@ public class CuadroController {
 	
 	@PostMapping("/cuadros/data")
 	public ResponseEntity<?> createAll(@RequestBody List<Cuadro> cuadros){
-		
-		System.out.println("Creando varias...");
-		for(Cuadro c: cuadros) System.out.println(c.toString());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cuadroService.saveAll(cuadros));
 	}
@@ -84,9 +79,7 @@ public class CuadroController {
 	
 	@DeleteMapping("/cuadros/fire")
 	public ResponseEntity<?> deleteAll(){
-		System.out.println("Borrando varias...");
 		cuadroService.deleteAll();
-		
 		return ResponseEntity.ok().build();
 	}
 	
@@ -109,6 +102,7 @@ public class CuadroController {
 	
 	@GetMapping("/cuadros/search/autor/{autor}")
 	public ResponseEntity<?> readByAutor(@PathVariable String autor){
+		
 		List<Cuadro> cuadrosAutor = cuadroService.getCuadrosByAutor(autor);
 		
 		return ResponseEntity.ok(cuadrosAutor);
@@ -116,6 +110,7 @@ public class CuadroController {
 
 	@GetMapping("/cuadros/search/precio/{precio}")
 	public ResponseEntity<?> readByPrecio(@PathVariable double precio){
+		
 		List<Cuadro> cuadrosPrecio = cuadroService.getCuadrosByPrecioGreaterThan(precio);
 		
 		return ResponseEntity.ok(cuadrosPrecio);
